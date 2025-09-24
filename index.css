@@ -1,14 +1,50 @@
+/* Reset básico */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  margin: 20px;
-  background-color: #f9f9f9;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f8;
   color: #333;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+/* Menú hamburguesa */
+#menu-toggle {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  border: none;
+  background: #fff;
+  padding: 10px 12px;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 nav.menu {
+  position: absolute;
+  top: 60px;
+  left: 20px;
+  background-color: #ffffff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   display: none;
   flex-direction: column;
-  margin-top: 10px;
+  gap: 8px;
+  z-index: 1000;
 }
 
 nav.menu.visible {
@@ -16,31 +52,71 @@ nav.menu.visible {
 }
 
 nav.menu a {
-  margin: 5px 0;
-  text-decoration: none;
   color: #1a73e8;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* Formulario de tareas */
+form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+input[name="tarea"] {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 250px;
 }
 
 button {
-  margin-top: 10px;
-  padding: 8px 12px;
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
   font-size: 14px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
+button:hover {
+  background-color: #0c57cc;
+}
+
+/* Lista de tareas */
 #task-list {
-  margin-top: 20px;
   list-style: none;
-  padding: 0;
+  margin-bottom: 20px;
+  width: 100%;
+  max-width: 400px;
 }
 
 #task-list li {
-  padding: 8px;
-  margin-bottom: 5px;
-  background: #e0e0e0;
+  background-color: #fff;
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   cursor: pointer;
+  transition: background 0.2s ease;
 }
 
 #task-list li:hover {
-  background: #ccc;
+  background-color: #f0f0f0;
+}
+
+/* Botones de import/export/login */
+.controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+#login-icon {
+  padding: 10px 12px;
+  font-size: 16px;
 }
