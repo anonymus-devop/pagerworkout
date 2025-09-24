@@ -1,553 +1,60 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Plataforma Académica Moderna</title>
-<link rel="manifest" href="manifest.json" />
-<meta name="theme-color" content="#1a73e8" />
-<style>
-  /* -- estilos previos -- */
-  * {
-    box-sizing: border-box;
-  }
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #f0f2f5;
-    margin: 0;
-    color: #333;
-  }
-  header {
-    background: #1a73e8;
-    color: white;
-    padding: 15px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  header h1 {
-    font-weight: 700;
-    font-size: 24px;
-    margin: 0;
-  }
-  .user-icon {
-    cursor: pointer;
-    font-size: 28px;
-    background: white;
-    color: #1a73e8;
-    border: none;
-    border-radius: 50%;
-    width: 44px;
-    height: 44px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    transition: background-color 0.3s ease;
-  }
-  .user-icon:hover {
-    background-color: #e6e6e6;
-  }
-  nav {
-    background: white;
-    display: flex;
-    justify-content: center;
-    padding: 12px 0;
-    gap: 12px;
-    flex-wrap: wrap;
-    box-shadow: 0 1px 6px rgba(0,0,0,0.1);
-  }
-  nav a {
-    background: #1a73e8;
-    color: white;
-    padding: 10px 18px;
-    border-radius: 25px;
-    text-decoration: none;
-    font-weight: 600;
-    box-shadow: 0 2px 8px rgba(26,115,232,0.4);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    user-select: none;
-  }
-  nav a:hover {
-    background-color: #155ab6;
-    box-shadow: 0 4px 14px rgba(21,90,182,0.6);
-  }
-  .container {
-    max-width: 900px;
-    margin: 30px auto;
-    padding: 0 15px 40px;
-  }
-  .welcome-text {
-    font-size: 18px;
-    margin-bottom: 25px;
-    text-align: center;
-    color: #444;
-  }
-  .task-form {
-    background: white;
-    padding: 20px 25px;
-    border-radius: 10px;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.07);
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 30px;
-  }
-  .task-form input[type="text"],
-  .task-form input[type="date"],
-  .task-form select {
-    flex: 1 1 180px;
-    padding: 10px 12px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    transition: border-color 0.3s ease;
-  }
-  .task-form input[type="text"]:focus,
-  .task-form input[type="date"]:focus,
-  .task-form select:focus {
-    border-color: #1a73e8;
-    outline: none;
-  }
-  .task-form button,
-  .task-form label.btn-file {
-    background-color: #1a73e8;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    padding: 12px 22px;
-    font-size: 15px;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(26,115,232,0.4);
-    user-select: none;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .task-form button:hover,
-  .task-form label.btn-file:hover {
-    background-color: #155ab6;
-    box-shadow: 0 6px 18px rgba(21,90,182,0.7);
-  }
-  .task-form label.btn-file {
-    position: relative;
-    overflow: hidden;
-  }
-  .task-form label.btn-file input[type="file"] {
-    position: absolute;
-    opacity: 0;
-    width: 100%;
-    height: 100%;
-    left: 0; top: 0;
-    cursor: pointer;
-  }
-  .tasks-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
-    gap: 20px;
-  }
-  .task-card {
-    background: white;
-    border-radius: 12px;
-    padding: 20px 18px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: box-shadow 0.3s ease;
-  }
-  .task-card:hover {
-    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-  }
-  .task-header {
-    font-weight: 700;
-    font-size: 18px;
-    margin-bottom: 8px;
-    color: #1a73e8;
-  }
-  .task-activity {
-    font-size: 16px;
-    margin-bottom: 6px;
-  }
-  .task-date {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 10px;
-  }
-  .task-status {
-    font-weight: 600;
-    padding: 5px 12px;
-    border-radius: 20px;
-    width: fit-content;
-    color: white;
-    user-select: none;
-  }
-  .task-status.entregado {
-    background-color: #34a853;
-  }
-  .task-status.pendiente {
-    background-color: #fbbc05;
-    color: #4a4a4a;
-  }
-  .task-actions {
-    margin-top: auto;
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-  }
-  .task-actions button {
-    background: #e53935;
-    border: none;
-    color: white;
-    font-weight: 600;
-    padding: 8px 14px;
-    border-radius: 20px;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(229,57,53,0.6);
-    transition: background-color 0.3s ease;
-  }
-  .task-actions button:hover {
-    background-color: #ab2e29;
-  }
-  #secretSection {
-    background: #fff;
-    max-width: 350px;
-    margin: 25px auto 0;
-    padding: 18px 22px;
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-    text-align: center;
-    display: none;
-  }
-  #secretSection.active {
-    display: block;
-  }
-  #secretSection input[type="password"] {
-    width: 100%;
-    padding: 12px 10px;
-    font-size: 16px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    margin-bottom: 15px;
-  }
-  #secretSection button {
-    background-color: #34a853;
-    border: none;
-    color: white;
-    font-weight: 700;
-    padding: 12px 28px;
-    border-radius: 30px;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(52,168,83,0.6);
-    transition: background-color 0.3s ease;
-  }
-  #secretSection button:hover {
-    background-color: #2a8f3c;
-  }
-  .error {
-    color: #d93025;
-    margin-top: 8px;
-    font-weight: 600;
-  }
-  /* Estilos para la pregunta de redirección */
-  #redirectSection {
-    background: #fff;
-    max-width: 350px;
-    margin: 15px auto 0;
-    padding: 18px 22px;
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.1);
-    text-align: center;
-    display: none;
-  }
-  #redirectSection.active {
-    display: block;
-  }
-  #redirectSection button {
-    background-color: #1a73e8;
-    border: none;
-    color: white;
-    font-weight: 700;
-    padding: 12px 22px;
-    margin: 10px 10px 0 10px;
-    border-radius: 30px;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(26,115,232,0.6);
-    transition: background-color 0.3s ease;
-    user-select: none;
-  }
-  #redirectSection button:hover {
-    background-color: #155ab6;
-  }
-  /* Responsive */
-  @media (max-width: 480px) {
-    nav {
-      flex-direction: column;
-    }
-    .task-form {
-      flex-direction: column;
-    }
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plataforma Académica</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#1a73e8" />
+  <link rel="icon" href="icons/192.png" type="image/png" />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="index.css" />
 </head>
 <body>
+  <!-- Menú -->
+  <button id="menu-toggle">☰</button>
+  <nav id="menu" class="menu">
+    <a href="https://student.innovamat.com" target="_blank">Innovamat</a>
+    <a href="https://savvasrealize.com" target="_blank">Savvas</a>
+    <a href="https://innovacolombia.brightspace.com/d2l/login" target="_blank">Brightspace</a>
+    <a href="https://mail.google.com" target="_blank">Gmail</a>
+    <a href="https://app.arukay.com" target="_blank">Arukay</a>
+    <a href="https://edu.edicionesnorma.com" target="_blank">Ediciones Norma</a>
+    <a href="https://scholar.google.com" target="_blank">Google Académico</a>
+  </nav>
 
-<header>
-  <h1>Plataforma Académica Moderna</h1>
-  <button class="user-icon" aria-label="Iniciar sesión" title="Iniciar sesión" id="userIcon">👤</button>
-</header>
-
-<nav>
-  <a href="https://savvasrealize.com" target="_blank" rel="noopener">SavvasRealize</a>
-  <a href="https://student.innovamat.com" target="_blank" rel="noopener">Innovamat</a>
-  <a href="https://innovacolombia.brightspace.com/d2l/login" target="_blank" rel="noopener">Brightspace</a>
-  <a href="https://mail.google.com" target="_blank" rel="noopener">Gmail</a>
-  <a href="https://app.arukay.com" target="_blank" rel="noopener">Arukay</a>
-  <a href="https://edu.edicionesnorma.com" target="_blank" rel="noopener">Ediciones Norma</a>
-  <a href="https://scholar.google.com" target="_blank" rel="noopener">Google Académico</a>
-</nav>
-
-<div class="container">
-  <div class="welcome-text">
-    ¡Bienvenido! Aquí puedes gestionar tus tareas y acceder a tus recursos académicos favoritos.
-  </div>
-
-  <div id="secretSection" aria-hidden="true">
-    <input
-      type="password"
-      id="secretCode"
-      placeholder="Ingresa código secreto"
-      aria-label="Código secreto para iniciar sesión"
-      autocomplete="off"
-    />
-    <button id="submitCodeBtn">Ingresar</button>
-    <p id="errorMsg" class="error" aria-live="polite"></p>
-  </div>
-
-  <div id="redirectSection" aria-hidden="true">
-    <p>¿Quieres acceder a Poki o Crazy Games?</p>
-    <button id="btnPoki">Poki</button>
-    <button id="btnCrazy">Crazy Games</button>
-  </div>
-
-  <form class="task-form" onsubmit="event.preventDefault(); agregarTarea();">
-    <input type="text" id="materia" placeholder="Materia" aria-label="Materia de la tarea" required />
-    <input type="text" id="actividad" placeholder="Actividad" aria-label="Descripción de la actividad" required />
-    <input type="date" id="fecha" aria-label="Fecha de entrega" required />
-    <select id="estado" aria-label="Estado de la tarea" required>
-      <option value="Pendiente">Pendiente</option>
-      <option value="Entregado">Entregado</option>
-    </select>
-    <button type="submit">Agregar Tarea</button>
-    <label class="btn-file" for="importarArchivo" title="Importar tareas JSON">Importar</label>
-    <input type="file" id="importarArchivo" accept=".json" style="display:none;" aria-label="Importar archivo JSON de tareas" />
-    <button type="button" onclick="exportarJSON()">Exportar JSON</button>
+  <!-- Tareas -->
+  <h1>Gestor de Tareas</h1>
+  <form id="task-form">
+    <input type="text" name="tarea" placeholder="Nueva tarea" required />
+    <button type="submit">Agregar</button>
   </form>
 
-  <section class="tasks-list" id="tasksList" aria-live="polite" aria-label="Lista de tareas académicas">
-    <!-- Tareas se muestran aquí -->
-  </section>
-</div>
+  <ul id="task-list"></ul>
 
-<script>
-  let tareas = [];
+  <!-- Botones -->
+  <button id="export-btn">Exportar tareas</button>
+  <button id="import-btn">Importar tareas</button>
+  <input type="file" id="import-file" accept="application/json" style="display:none" />
 
-  const userIcon = document.getElementById("userIcon");
-  const secretSection = document.getElementById("secretSection");
-  const redirectSection = document.getElementById("redirectSection");
-  const errorMsg = document.getElementById("errorMsg");
-  const secretCodeInput = document.getElementById("secretCode");
-  const submitCodeBtn = document.getElementById("submitCodeBtn");
-  const btnPoki = document.getElementById("btnPoki");
-  const btnCrazy = document.getElementById("btnCrazy");
+  <!-- Icono de login secreto -->
+  <button id="login-icon" title="Iniciar sesión secreta">👤</button>
 
-  userIcon.addEventListener("click", () => {
-    // Alternar visibilidad del panel de código secreto
-    if (secretSection.classList.contains("active") || redirectSection.classList.contains("active")) {
-      secretSection.classList.remove("active");
-      redirectSection.classList.remove("active");
-      secretSection.setAttribute("aria-hidden", "true");
-      redirectSection.setAttribute("aria-hidden", "true");
-      errorMsg.textContent = "";
-      secretCodeInput.value = "";
-    } else {
-      secretSection.classList.add("active");
-      secretSection.setAttribute("aria-hidden", "false");
-      secretCodeInput.focus();
+  <!-- JS -->
+  <script src="script.js"></script>
+
+  <!-- Service Worker -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .then(reg => console.log('SW registrado:', reg.scope))
+          .catch(err => console.error('Error al registrar el SW:', err));
+      });
     }
-  });
-
-  submitCodeBtn.addEventListener("click", () => {
-    const clave = secretCodeInput.value.trim();
-    if (clave === "InnovaPoki2526**") {
-      // Código correcto
-      errorMsg.textContent = "";
-      secretSection.classList.remove("active");
-      secretSection.setAttribute("aria-hidden", "true");
-
-      // Mostrar opciones de redirección
-      redirectSection.classList.add("active");
-      redirectSection.setAttribute("aria-hidden", "false");
-    } else {
-      errorMsg.textContent = "Clave incorrecta. Intenta de nuevo.";
-    }
-  });
-
-  // Permitir presionar Enter en el input para enviar
-  secretCodeInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      submitCodeBtn.click();
-    }
-  });
-
-  btnPoki.addEventListener("click", () => {
-    window.location.href = "https://poki.com";
-  });
-
-  btnCrazy.addEventListener("click", () => {
-    window.location.href = "https://www.crazygames.com";
-  });
-
-  // --- Gestión de tareas ---
-  function renderTareas() {
-    const container = document.getElementById("tasksList");
-    container.innerHTML = "";
-    if(tareas.length === 0){
-      container.innerHTML = "<p style='color:#777;text-align:center;'>No hay tareas agregadas aún.</p>";
-      return;
-    }
-    tareas.forEach((tarea, idx) => {
-      const card = document.createElement("div");
-      card.className = "task-card";
-      card.innerHTML = `
-        <div class="task-header">${escapeHtml(tarea.materia)}</div>
-        <div class="task-activity">${escapeHtml(tarea.actividad)}</div>
-        <div class="task-date">Entrega: ${escapeHtml(tarea.fecha)}</div>
-        <div class="task-status ${tarea.estado.toLowerCase()}">${escapeHtml(tarea.estado)}</div>
-        <div class="task-actions">
-          <button aria-label="Eliminar tarea ${escapeHtml(tarea.actividad)}" onclick="eliminarTarea(${idx})">Eliminar</button>
-        </div>
-      `;
-      container.appendChild(card);
-    });
-  }
-
-  function agregarTarea() {
-    const materia = document.getElementById("materia").value.trim();
-    const actividad = document.getElementById("actividad").value.trim();
-    const fecha = document.getElementById("fecha").value;
-    const estado = document.getElementById("estado").value;
-
-    if(!materia || !actividad || !fecha){
-      alert("Por favor, completa todos los campos.");
-      return;
-    }
-
-    tareas.push({materia, actividad, fecha, estado});
-    guardarLocalStorage();
-    renderTareas();
-    limpiarFormulario();
-  }
-
-  function limpiarFormulario() {
-    document.getElementById("materia").value = "";
-    document.getElementById("actividad").value = "";
-    document.getElementById("fecha").value = "";
-    document.getElementById("estado").value = "Pendiente";
-  }
-
-  function eliminarTarea(index) {
-    if(confirm("¿Seguro que quieres eliminar esta tarea?")){
-      tareas.splice(index, 1);
-      guardarLocalStorage();
-      renderTareas();
-    }
-  }
-
-  function exportarJSON() {
-    if(tareas.length === 0){
-      alert("No hay tareas para exportar.");
-      return;
-    }
-    const dataStr = JSON.stringify(tareas, null, 2);
-    const blob = new Blob([dataStr], {type: "application/json"});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "tareas.json";
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(() => {
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-    }, 0);
-  }
-
-  function importarJSON() {
-    const file = document.getElementById("importarArchivo").files[0];
-    if(!file) return;
-    const reader = new FileReader();
-    reader.onload = function(e){
-      try {
-        const data = JSON.parse(e.target.result);
-        if(Array.isArray(data)){
-          tareas = data;
-          guardarLocalStorage();
-          renderTareas();
-        } else {
-          alert("Archivo JSON inválido.");
-        }
-      } catch {
-        alert("Error al leer archivo JSON.");
-      }
-    };
-    reader.readAsText(file);
-    document.getElementById("importarArchivo").value = "";
-  }
-
-  function guardarLocalStorage() {
-    localStorage.setItem("tareasAcademicas", JSON.stringify(tareas));
-  }
-
-  function cargarLocalStorage() {
-    const datos = localStorage.getItem("tareasAcademicas");
-    if(datos){
-      try {
-        tareas = JSON.parse(datos);
-        renderTareas();
-      } catch {
-        tareas = [];
-      }
-    }
-  }
-
-  // Escapa caracteres para evitar problemas XSS
-  function escapeHtml(text) {
-    return text
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
-  }
-
-  cargarLocalStorage();
-
-  // Eventos para importar archivo
-  document.getElementById("importarArchivo").addEventListener("change", importarJSON);
-</script>
-<script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js')
-        .then(reg => console.log('Service Worker registrado:', reg.scope))
-        .catch(err => console.log('Error al registrar Service Worker:', err));
-    });
-  }
-</script>
-
+  </script>
 </body>
 </html>
