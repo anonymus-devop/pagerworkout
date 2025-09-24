@@ -85,12 +85,3 @@ document.getElementById('login-icon').addEventListener('click', () => {
     alert("Código incorrecto.");
   }
 });
-
-// Tema claro / oscuro
-const themeToggle = document.getElementById('theme-toggle');
-const currentTheme = localStorage.getItem('theme');
-
-function applyTheme(theme) {
-  document.documentElement.setAttribute('data-theme', theme);
-  localStorage.setItem('theme', theme);
-  themeToggle.textContent = theme === 'dark' ? '☀️' : '
