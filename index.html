@@ -14,8 +14,11 @@
   <link rel="stylesheet" href="index.css" />
 </head>
 <body>
-  <!-- Menú -->
+
+  <!-- Botón del menú -->
   <button id="menu-toggle">☰</button>
+
+  <!-- Menú lateral -->
   <nav id="menu" class="menu">
     <a href="https://student.innovamat.com" target="_blank">Innovamat</a>
     <a href="https://savvasrealize.com" target="_blank">Savvas</a>
@@ -26,22 +29,24 @@
     <a href="https://scholar.google.com" target="_blank">Google Académico</a>
   </nav>
 
-  <!-- Tareas -->
   <h1>Gestor de Tareas</h1>
+
+  <!-- Formulario de tarea -->
   <form id="task-form">
     <input type="text" name="tarea" placeholder="Nueva tarea" required />
     <button type="submit">Agregar</button>
   </form>
 
+  <!-- Lista de tareas -->
   <ul id="task-list"></ul>
 
-  <!-- Botones -->
-  <button id="export-btn">Exportar tareas</button>
-  <button id="import-btn">Importar tareas</button>
-  <input type="file" id="import-file" accept="application/json" style="display:none" />
-
-  <!-- Icono de login secreto -->
-  <button id="login-icon" title="Iniciar sesión secreta">👤</button>
+  <!-- Botones de control -->
+  <div class="controls">
+    <button id="export-btn">Exportar tareas</button>
+    <button id="import-btn">Importar tareas</button>
+    <input type="file" id="import-file" accept="application/json" style="display:none" />
+    <button id="login-icon" title="Iniciar sesión secreta">👤</button>
+  </div>
 
   <!-- JS -->
   <script src="script.js"></script>
