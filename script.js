@@ -1,12 +1,11 @@
-// Menú
+// Menú lateral
 document.getElementById('menu-toggle').addEventListener('click', () => {
   document.getElementById('menu').classList.toggle('visible');
 });
 
-// Tareas
+// Gestor de tareas
 const form = document.getElementById('task-form');
 const taskList = document.getElementById('task-list');
-
 let tareas = JSON.parse(localStorage.getItem('tareas')) || [];
 
 function renderTareas() {
@@ -41,7 +40,7 @@ form.addEventListener('submit', (e) => {
 
 renderTareas();
 
-// Exportar JSON
+// Exportar tareas
 document.getElementById('export-btn').addEventListener('click', () => {
   const blob = new Blob([JSON.stringify(tareas)], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
@@ -52,7 +51,7 @@ document.getElementById('export-btn').addEventListener('click', () => {
   URL.revokeObjectURL(url);
 });
 
-// Importar JSON
+// Importar tareas
 document.getElementById('import-btn').addEventListener('click', () => {
   document.getElementById('import-file').click();
 });
@@ -68,8 +67,8 @@ document.getElementById('import-file').addEventListener('change', (e) => {
         tareas = data;
         saveTareas();
       }
-    } catch (err) {
-      alert('Error al importar');
+    } catch {
+      alert("Error al importar archivo");
     }
   };
   reader.readAsText(file);
@@ -94,16 +93,4 @@ const currentTheme = localStorage.getItem('theme');
 function applyTheme(theme) {
   document.documentElement.setAttribute('data-theme', theme);
   localStorage.setItem('theme', theme);
-  themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
-}
-
-if (currentTheme) {
-  applyTheme(currentTheme);
-} else {
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  applyTheme(prefersDark ? 'dark' : 'light');
-}
-
-themeToggle.addEventListener('click', () => {
-  const newTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-  applyTheme(newTheme
+  themeToggle.textContent = theme === 'dark' ? '☀️' : '
